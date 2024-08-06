@@ -1,10 +1,6 @@
-import IReward from "./IReward";
+import { IReward } from './IReward';
 
-export interface ILocation {
-  lat: number;
-  lng: number;
-}
-export default interface IStation {
+export interface IStation {
   id: string;
   name: string;
   description: string;

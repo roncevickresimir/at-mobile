@@ -1,5 +1,4 @@
-import Role from "./Role";
-export default interface IRegister {
+export interface IRegister {
   username: string;
   email: string;
   password: string;

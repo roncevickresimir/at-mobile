@@ -1,16 +1,18 @@
-import PATHS from "./paths";
+import {
+  AboutPage,
+  AdditionalInfoPage,
+  ChangePasswordPage,
+  CompletedQuestsPage,
+  LandingPage,
+  LinkToOtherServicesPage,
+  LoginScreen,
+  MyProfilePage,
+  QuestPage,
+  RewardsPage,
+  SettingsPage,
+} from '~screens';
 
-import LandingPage from "./app/screens/LandingPage";
-import QuestsPage from "./app/screens/QuestPage";
-import RewardsPage from "./app/screens/RewardsPage";
-import MyProfilePage from "./app/screens/MyProfilePage";
-import AdditionalInfoPage from "./app/screens/AdditionalInfoPage";
-import SettingsPage from "./app/screens/SettingsPage";
-import ChangePasswordPage from "./app/screens/ChangePasswordPage";
-import AboutPage from "./app/screens/AboutPage";
-import LinkToOtherServicesPage from "./app/screens/LinkToOtherServicesPage";
-import CompletedQuestsPage from "./app/screens/CompletedQuestsPage";
-import LoginSreen from "./app/screens/LoginScreen";
+import PATHS from '.PATHS';
 
 export interface PATH {
   key: string;
@@ -24,15 +26,15 @@ export interface PATH {
 const routes: PATH[] = [
   {
     ...PATHS.LOGIN_SCREEN,
-    component: LoginSreen,
+    component: LoginScreen,
   } as PATH,
   {
     ...PATHS.LANDING_PAGE,
     component: LandingPage,
   } as PATH,
   {
-    ...PATHS.QUESTS_PAGE,
-    component: QuestsPage,
+    ...PATHS.QUEST_PAGE,
+    component: QuestPage,
   } as PATH,
   {
     ...PATHS.REWARDS_PAGE,

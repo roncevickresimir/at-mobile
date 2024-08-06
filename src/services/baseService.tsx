@@ -1,32 +1,18 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {
-  REACT_APP_SCHEMA,
-  REACT_APP_HOST,
-  REACT_APP_API_PORT,
-  REACT_APP_API,
-} from "@env";
+import { AT_API_URI } from '@env';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import Constants from "expo-constants";
-
-const { manifest } = Constants;
-
-import { RootState } from "../store";
-
-const expoHost = manifest.debuggerHost?.split(":").shift();
-
-export const apiUrl = `${REACT_APP_SCHEMA}://${expoHost}:${REACT_APP_API_PORT}/${REACT_APP_API}/`;
+import { RootState } from '../store';
 
 export const baseService = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: `${REACT_APP_SCHEMA}://${
-      expoHost ? expoHost : "localhost"
-    }:${REACT_APP_API_PORT}/${REACT_APP_API}/`, //REACT_APP_HOST
+    baseUrl: AT_API_URI,
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
 
       if (token) {
-        headers.set("authorization", `Bearer ${token}`);
+        headers.set('authorization', `Bearer ${token}`);
       }
+
       return headers;
     },
   }),

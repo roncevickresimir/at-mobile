@@ -2,7 +2,7 @@ export interface ILocation {
   lat: number;
   lng: number;
 }
-export default interface IQuest {
+export interface IQuest {
   id: string;
   name: string;
   description: string;

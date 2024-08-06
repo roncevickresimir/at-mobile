@@ -1,13 +1,13 @@
-import React, { useState, useCallback, useRef } from "react";
-import { View, StyleSheet } from "react-native";
-import IQuest from "../interfaces/IQuest";
-import QuestItem from "./QuestItem";
+import React, { useState, useCallback, useRef } from 'react';
+import { View, StyleSheet } from 'react-native';
+import IQuest from '../interfaces/IQuest';
+import QuestItem from './QuestItem';
 
 interface IQuestListProps {
   items: IQuest[];
 }
 
-const QuestList = (props: IQuestListProps) => {
+export const QuestList = (props: IQuestListProps) => {
   const { items } = props;
 
   return (
@@ -23,23 +23,21 @@ const QuestList = (props: IQuestListProps) => {
 
 const QuestListStyles = StyleSheet.create({
   view: {
-    width: "100%",
-    display: "flex",
+    width: '100%',
+    display: 'flex',
     flexGrow: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "flex-start",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
     paddingBottom: 120,
     borderRadius: 20,
   },
   flex: {
-    width: "100%",
-    display: "flex",
+    width: '100%',
+    display: 'flex',
     flexGrow: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-evenly",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-evenly',
   },
 });
-
-export default QuestList;

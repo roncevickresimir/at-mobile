@@ -1,20 +1,20 @@
-import { t } from "i18next";
-import React, { useState, useCallback, useRef, useEffect } from "react";
-import { Text, View, StyleSheet, Dimensions } from "react-native";
-import Carousel from "react-native-reanimated-carousel";
+import { t } from 'i18next';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { Text, View, StyleSheet, Dimensions } from 'react-native';
+// import Carousel from 'react-native-reanimated-carousel';
 
-import IQuest from "../interfaces/IQuest";
-import globalStyles from "../styles/globalStyles";
-import QuestItem from "./QuestItem";
+import IQuest from '../interfaces/IQuest';
+import globalStyles from '../styles/globalStyles';
+import QuestItem from './QuestItem';
 
 interface IQuestCarouselProps {
   items: IQuest[];
 }
 
-const QuestsCarousel = (props: IQuestCarouselProps) => {
+export const QuestsCarousel = (props: IQuestCarouselProps) => {
   const { items } = props;
   const [data, setData] = useState<IQuest[]>(items);
-  const width = Dimensions.get("window").width;
+  const width = Dimensions.get('window').width;
 
   useEffect(() => {
     setData(items);
@@ -23,10 +23,10 @@ const QuestsCarousel = (props: IQuestCarouselProps) => {
   return (
     <View
       style={{
-        alignItems: "center",
+        alignItems: 'center',
       }}
     >
-      <Carousel
+      {/* <Carousel
         style={QuestsCarouselStyles.carouselContainer}
         loop
         width={width}
@@ -49,26 +49,24 @@ const QuestsCarousel = (props: IQuestCarouselProps) => {
             </View>
           );
         }}
-      />
+      /> */}
     </View>
   );
 };
 
 const QuestsCarouselStyles = StyleSheet.create({
   view: {
-    width: "100%",
+    width: '100%',
   },
   carouselContainer: {
     marginTop: -15,
-    width: "100%",
-    overflow: "visible",
+    width: '100%',
+    overflow: 'visible',
   },
   carouselItem: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
-
-export default QuestsCarousel;

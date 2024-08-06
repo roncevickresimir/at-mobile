@@ -1,8 +1,9 @@
-import { t } from "i18next";
-import React, { useState, useEffect } from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import React, { useEffect, useState } from 'react';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
-import globalStyles from "../styles/globalStyles";
+import { t } from 'i18next';
+
+import { globalStyles } from '~styles';
 
 interface IQuestUsersProps {
   number: number;
@@ -10,59 +11,35 @@ interface IQuestUsersProps {
   big?: boolean;
 }
 
-const QuestUsers = (props: IQuestUsersProps) => {
+export const QuestUsers = (props: IQuestUsersProps) => {
   const { number, carousel, big } = props;
   const [minUsers, setMinUsers] = useState<number>(0);
   var [avatarIndexArray, setAvatarIndexArray] = useState<number[]>([]);
 
   const avatars = [
     <Image
-      style={[
-        QuestUsersStyles.avatar,
-        !carousel && QuestUsersStyles.correctAvatar,
-        big && QuestUsersStyles.bigAvatar,
-      ]}
-      source={require("./../assets/images/avatars/1.png")}
+      style={[QuestUsersStyles.avatar, !carousel && QuestUsersStyles.correctAvatar, big && QuestUsersStyles.bigAvatar]}
+      source={require('./../assets/images/avatars/1.png')}
     />,
     <Image
-      style={[
-        QuestUsersStyles.avatar,
-        !carousel && QuestUsersStyles.correctAvatar,
-        big && QuestUsersStyles.bigAvatar,
-      ]}
-      source={require("./../assets/images/avatars/2.png")}
+      style={[QuestUsersStyles.avatar, !carousel && QuestUsersStyles.correctAvatar, big && QuestUsersStyles.bigAvatar]}
+      source={require('./../assets/images/avatars/2.png')}
     />,
     <Image
-      style={[
-        QuestUsersStyles.avatar,
-        !carousel && QuestUsersStyles.correctAvatar,
-        big && QuestUsersStyles.bigAvatar,
-      ]}
-      source={require("./../assets/images/avatars/3.png")}
+      style={[QuestUsersStyles.avatar, !carousel && QuestUsersStyles.correctAvatar, big && QuestUsersStyles.bigAvatar]}
+      source={require('./../assets/images/avatars/3.png')}
     />,
     <Image
-      style={[
-        QuestUsersStyles.avatar,
-        !carousel && QuestUsersStyles.correctAvatar,
-        big && QuestUsersStyles.bigAvatar,
-      ]}
-      source={require("./../assets/images/avatars/4.png")}
+      style={[QuestUsersStyles.avatar, !carousel && QuestUsersStyles.correctAvatar, big && QuestUsersStyles.bigAvatar]}
+      source={require('./../assets/images/avatars/4.png')}
     />,
     <Image
-      style={[
-        QuestUsersStyles.avatar,
-        !carousel && QuestUsersStyles.correctAvatar,
-        big && QuestUsersStyles.bigAvatar,
-      ]}
-      source={require("./../assets/images/avatars/5.png")}
+      style={[QuestUsersStyles.avatar, !carousel && QuestUsersStyles.correctAvatar, big && QuestUsersStyles.bigAvatar]}
+      source={require('./../assets/images/avatars/5.png')}
     />,
     <Image
-      style={[
-        QuestUsersStyles.avatar,
-        !carousel && QuestUsersStyles.correctAvatar,
-        big && QuestUsersStyles.bigAvatar,
-      ]}
-      source={require("./../assets/images/avatars/6.png")}
+      style={[QuestUsersStyles.avatar, !carousel && QuestUsersStyles.correctAvatar, big && QuestUsersStyles.bigAvatar]}
+      source={require('./../assets/images/avatars/6.png')}
     />,
   ];
 
@@ -87,13 +64,9 @@ const QuestUsers = (props: IQuestUsersProps) => {
         })}
       </View>
       <Text
-        style={[
-          globalStyles.lightText,
-          !carousel && QuestUsersStyles.correctText,
-          big && QuestUsersStyles.bigText,
-        ]}
+        style={[globalStyles?.lightText, !carousel && QuestUsersStyles.correctText, big && QuestUsersStyles.bigText]}
       >
-        {number ? minUsers + number : minUsers} {t("LANDING.AVANTOURISTS")}
+        {number ? minUsers + number : minUsers} {t('LANDING.AVANTOURISTS')}
       </Text>
     </View>
   );
@@ -101,17 +74,17 @@ const QuestUsers = (props: IQuestUsersProps) => {
 
 const QuestUsersStyles = StyleSheet.create({
   view: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   users: {
     padding: 5,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
     marginRight: 16,
   },
   avatar: {
@@ -137,5 +110,3 @@ const QuestUsersStyles = StyleSheet.create({
     marginLeft: 10,
   },
 });
-
-export default QuestUsers;

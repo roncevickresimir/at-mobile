@@ -1,26 +1,22 @@
-import { baseService } from "./baseService";
-import { HttpMethods } from "../app/lookups/httpMethods";
-import ILogin from "../app/interfaces/ILogin";
-import ILoginResponse, {
-  IRegisterResponse,
-} from "../app/interfaces/ILoginResponse";
-import IRegister from "../app/interfaces/IRegister";
-import IUser from "../app/interfaces/IUser";
+import { ILogin, ILoginResponse, IRegister, IRegisterResponse, IUser } from '~interfaces';
 
-const URL = "users";
+import { HttpMethods } from '../app/lookups/httpMethods';
+import { baseService } from './baseService';
+
+const URL = '/users';
 
 export const userService = baseService.injectEndpoints({
   endpoints: (builder) => ({
     registerUser: builder.mutation<IRegisterResponse, IRegister>({
       query: (body) => ({
-        url: `${URL}/registerEndUser`,
+        url: `${URL}/register`,
         method: HttpMethods.POST,
         body,
       }),
     }),
     loginUser: builder.mutation<ILoginResponse, ILogin>({
       query: (body) => ({
-        url: `${URL}/loginEndUser`,
+        url: `${URL}/login`,
         method: HttpMethods.POST,
         body,
       }),
@@ -34,8 +30,4 @@ export const userService = baseService.injectEndpoints({
   }),
 });
 
-export const {
-  useRegisterUserMutation,
-  useLoginUserMutation,
-  useLazyGetUserQuery,
-} = userService;
+export const { useRegisterUserMutation, useLoginUserMutation, useLazyGetUserQuery } = userService;

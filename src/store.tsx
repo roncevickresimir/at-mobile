@@ -1,18 +1,19 @@
-import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import { combineReducers } from "redux";
-import { persistReducer, persistStore } from "redux-persist";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { baseService } from "./services/baseService";
-import roleReducer from "./app/slices/roleSlice";
-import authReducer from "./app/slices/authSlice";
-import languageReducer from "./app/slices/languageSlice";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { combineReducers } from 'redux';
+import { persistReducer, persistStore } from 'redux-persist';
+
+import authReducer from './app/slices/authSlice';
+import languageReducer from './app/slices/languageSlice';
+import roleReducer from './app/slices/roleSlice';
+import { baseService } from './services/baseService';
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   version: 1,
   storage: AsyncStorage,
-  whitelist: ["auth", "role", "lang", "navigation"],
+  whitelist: ['auth', 'role', 'lang', 'navigation'],
 };
 
 const appReducer = combineReducers({
@@ -23,8 +24,8 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state: any, action: any) => {
-  if (action.type === "USER_LOGOUT") {
-    AsyncStorage.removeItem("persist:root");
+  if (action.type === 'USER_LOGOUT') {
+    AsyncStorage.removeItem('persist:root');
 
     return appReducer(undefined, action);
   }
@@ -47,9 +48,4 @@ export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;

@@ -1,9 +1,10 @@
-import { useEffect } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { StyleSheet, Image } from "react-native";
-import { Dimensions } from "react-native";
-import PATHS from "../../paths";
-import globalStyles from "../styles/globalStyles";
+import { useEffect } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
+import { Dimensions } from 'react-native';
+
+import PATHS from '../../paths';
+import globalStyles from '../styles/globalStyles';
 
 interface ITabBarProps {
   state: any;
@@ -11,7 +12,7 @@ interface ITabBarProps {
   navigation: any;
 }
 
-const TabBar = (props: ITabBarProps) => {
+export const TabBar = (props: ITabBarProps) => {
   const { state, descriptors, navigation } = props;
 
   return (
@@ -22,14 +23,14 @@ const TabBar = (props: ITabBarProps) => {
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-            ? options.title
-            : route.name;
+              ? options.title
+              : route.name;
 
         const isFocused = state.index === index;
 
         const onPress = () => {
           const event = navigation.emit({
-            type: "tabPress",
+            type: 'tabPress',
             target: route.key,
             canPreventDefault: true,
           });
@@ -42,28 +43,28 @@ const TabBar = (props: ITabBarProps) => {
 
         const onLongPress = () => {
           navigation.emit({
-            type: "tabLongPress",
+            type: 'tabLongPress',
             target: route.key,
           });
         };
 
-        let imageSrc = require("./../assets/images/MyProfilePage.png");
+        let imageSrc = require('./../assets/images/MyProfilePage.png');
         switch (label) {
           case PATHS.LANDING_PAGE.name:
-            imageSrc = require("./../assets/images/LandingPage.png");
+            imageSrc = require('./../assets/images/LandingPage.png');
             break;
           case PATHS.COMPLETED_QUESTS.name:
-            imageSrc = require("./../assets/images/CompletedQuestsPage.png");
+            imageSrc = require('./../assets/images/CompletedQuestsPage.png');
             break;
           case PATHS.REWARDS_PAGE.name:
-            imageSrc = require("./../assets/images/RewardsPage.png");
+            imageSrc = require('./../assets/images/RewardsPage.png');
             break;
           case PATHS.MY_PROFILE.name:
-            imageSrc = require("./../assets/images/MyProfilePage.png");
+            imageSrc = require('./../assets/images/MyProfilePage.png');
             break;
         }
 
-        return label === "QuestsPage" ? (
+        return label === 'QuestsPage' ? (
           <></>
         ) : (
           <TouchableOpacity
@@ -78,11 +79,7 @@ const TabBar = (props: ITabBarProps) => {
           >
             <View style={TabBarStyles.iconContainer}>
               <Image
-                style={
-                  isFocused
-                    ? [TabBarStyles.icon, TabBarStyles.iconFocus]
-                    : TabBarStyles.icon
-                }
+                style={isFocused ? [TabBarStyles.icon, TabBarStyles.iconFocus] : TabBarStyles.icon}
                 source={imageSrc}
               ></Image>
             </View>
@@ -95,33 +92,31 @@ const TabBar = (props: ITabBarProps) => {
 
 const TabBarStyles = StyleSheet.create({
   bar: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    position: "absolute",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    position: 'absolute',
     bottom: 25,
     left: 10,
-    width: Dimensions.get("window").width - 20,
+    width: Dimensions.get('window').width - 20,
     height: 80,
-    backgroundColor: globalStyles.colorPrimary.color,
+    backgroundColor: globalStyles?.colorPrimary.color,
     borderRadius: 18,
 
-    shadowColor: "rgba(0,0,0,0.3)",
+    shadowColor: 'rgba(0,0,0,0.3)',
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 5,
     elevation: 10,
   },
   iconContainer: {
-    width: "100%",
+    width: '100%',
     height: 25,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   icon: { width: 28, height: 28, opacity: 0.6 },
   iconFocus: { opacity: 1 },
 });
-
-export default TabBar;

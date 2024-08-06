@@ -1,8 +1,8 @@
-import { apiUrl, baseService } from "./baseService";
-import { HttpMethods } from "../app/lookups/httpMethods";
-import IQuest from "../app/interfaces/IQuest";
+import { apiUrl, baseService } from './baseService';
+import { HttpMethods } from '../app/lookups/httpMethods';
+import IQuest from '../app/interfaces/IQuest';
 
-const URL = "quest";
+const URL = 'quest';
 
 export interface IGetQuestsPayload {
   search: string;
@@ -29,13 +29,11 @@ interface IGetQuestById {
   userId: string;
 }
 
-export const userService = baseService.injectEndpoints({
+export const questService = baseService.injectEndpoints({
   endpoints: (builder) => ({
     getQuests: builder.query<IQuest[], IGetQuestsPayload>({
       query: (data) => ({
-        url: `${URL}/closest/?page=${data.page}&rpp=${data.rpp}${
-          data.search && "search=" + data.search
-        }`,
+        url: `${URL}/closest/?page=${data.page}&rpp=${data.rpp}${data.search && 'search=' + data.search}`,
         method: HttpMethods.POST,
         body: data,
       }),
@@ -50,7 +48,7 @@ export const userService = baseService.injectEndpoints({
             location: { lat: quest.latitude, lng: quest.longitude },
             userId: quest.userId,
             published: !quest.disabled,
-            image: apiUrl + "images/" + quest.image,
+            image: apiUrl + 'images/' + quest.image,
           };
         });
         return quests;
@@ -70,7 +68,7 @@ export const userService = baseService.injectEndpoints({
           location: { lat: quest.latitude, lng: quest.longitude },
           userId: quest.userId,
           published: !quest.disabled,
-          image: apiUrl + "images/" + quest.image,
+          image: apiUrl + 'images/' + quest.image,
           stations: quest.QuestStationRelations.map((station: any) => {
             const x = station.Station;
             return {
@@ -82,15 +80,13 @@ export const userService = baseService.injectEndpoints({
               location: { lat: quest.latitude, lng: quest.longitude },
               published: !x.disabled,
               complete: x.EndUserStations.length ? true : false,
-              image: "",
+              image: '',
               reward: x.RewardTypes.map((reward: any) => {
                 return {
                   id: reward.id,
                   name: reward.name,
                   description: reward.description,
-                  image: reward.image
-                    ? apiUrl + "images/" + reward.image
-                    : reward.image,
+                  image: reward.image ? apiUrl + 'images/' + reward.image : reward.image,
                 };
               }),
             };
@@ -107,22 +103,20 @@ export const userService = baseService.injectEndpoints({
         const r: any = [];
 
         const quests: any = response.forEach((bs: any) => {
-          const questsArray: any = bs?.Station?.QuestStationRelations?.forEach(
-            (quest: any) => {
-              const x = quest.Quest;
-              r.push({
-                id: x.id,
-                name: x.title,
-                description: x.description,
-                categories: x.categoryIds,
-                stations: x.QuestStationRelations,
-                location: { lat: x.latitude, lng: x.longitude },
-                userId: x.userId,
-                published: !x.disabled,
-                image: apiUrl + "images/" + x.image,
-              });
-            }
-          );
+          const questsArray: any = bs?.Station?.QuestStationRelations?.forEach((quest: any) => {
+            const x = quest.Quest;
+            r.push({
+              id: x.id,
+              name: x.title,
+              description: x.description,
+              categories: x.categoryIds,
+              stations: x.QuestStationRelations,
+              location: { lat: x.latitude, lng: x.longitude },
+              userId: x.userId,
+              published: !x.disabled,
+              image: apiUrl + 'images/' + x.image,
+            });
+          });
         });
         return r;
       },
@@ -130,8 +124,4 @@ export const userService = baseService.injectEndpoints({
   }),
 });
 
-export const {
-  useLazyGetQuestsQuery,
-  useLazyGetQuestByIdQuery,
-  useLazyGetCompletedQuestsQuery,
-} = userService;
+export const { useLazyGetQuestsQuery, useLazyGetQuestByIdQuery, useLazyGetCompletedQuestsQuery } = questService;

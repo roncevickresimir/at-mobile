@@ -1,15 +1,13 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-const navigationStyles = {
+export const navigationStyles = StyleSheet.create({
   tabBarStyle: {
-    backgroundColor: "#0000ff",
+    backgroundColor: '#0000ff',
     height: 100,
   },
   tabBarItemStyle: {
-    backgroundColor: "#00ff00",
+    backgroundColor: '#00ff00',
     margin: 5,
     borderRadius: 10,
   },
-};
-
-export default navigationStyles;
+});

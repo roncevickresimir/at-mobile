@@ -1,8 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { userService } from "../../services/userService";
-import IUser from "../interfaces/IUser";
-import ILoginResponse from "../interfaces/ILoginResponse";
+import { ILoginResponse, IUser } from '~interfaces';
+import { userService } from '~services';
 
 interface ILoginPayload {
   token: string;
@@ -22,7 +21,7 @@ const initialState: IState = {
 };
 
 export const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     login(state, action: PayloadAction<ILoginPayload>) {
@@ -33,9 +32,6 @@ export const authSlice = createSlice({
       state.token = null;
       state.user = null;
     },
-    setServerVersion(state, action: PayloadAction<string>) {
-      state.serverVersion = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -44,10 +40,10 @@ export const authSlice = createSlice({
         const { token, username, email, id } = action.payload;
         state.token = token;
         state.user = { id, username, email };
-      }
+      },
     );
   },
 });
 
-export const { login, logout, setServerVersion } = authSlice.actions;
+export const { login, logout } = authSlice.actions;
 export default authSlice.reducer;

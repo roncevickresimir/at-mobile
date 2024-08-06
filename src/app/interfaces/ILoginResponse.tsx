@@ -1,6 +1,6 @@
-import IUser from "./IUser";
+import { IUser } from './IUser';
 
-export default interface ILoginResponse extends IUser {
+export interface ILoginResponse extends IUser {
   token: string;
 }
 export interface IRegisterResponse {

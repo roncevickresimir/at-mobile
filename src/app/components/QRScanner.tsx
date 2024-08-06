@@ -1,34 +1,23 @@
-import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Button,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { BarCodeScanner } from "expo-barcode-scanner";
-import { useLazyCompleteStationQuery } from "../../services/stationService";
-import { useAppSelector } from "../../utils/hooks";
-import globalStyles from "../styles/globalStyles";
-import { t } from "i18next";
+import React, { useEffect, useState } from 'react';
+import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const QRScanner = ({ stationId }) => {
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { t } from 'i18next';
+
+import { useLazyCompleteStationQuery } from '../../services/stationService';
+import { useAppSelector } from '../../utils/hooks';
+import globalStyles from '../styles/globalStyles';
+
+export const QRScanner = ({ stationId }) => {
   const [hasPermission, setHasPermission] = useState<boolean>(null);
   const [scanned, setScanned] = useState<boolean>(false);
   const [showScanner, setShowScanner] = useState<boolean>(false);
-  const [stationCompleteSuccess, setStationCompleteSuccess] =
-    useState<boolean>(false);
+  const [stationCompleteSuccess, setStationCompleteSuccess] = useState<boolean>(false);
 
   const user = useAppSelector((state) => state.auth.user.User);
 
-  const [
-    completeStation,
-    {
-      isLoading: completeStationLoading,
-      isUninitialized: completeStationUninitialized,
-    },
-  ] = useLazyCompleteStationQuery();
+  const [completeStation, { isLoading: completeStationLoading, isUninitialized: completeStationUninitialized }] =
+    useLazyCompleteStationQuery();
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
@@ -54,7 +43,7 @@ const QRScanner = ({ stationId }) => {
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
+      setHasPermission(status === 'granted');
     };
     getBarCodeScannerPermissions();
   }, []);
@@ -69,33 +58,17 @@ const QRScanner = ({ stationId }) => {
   return stationCompleteSuccess ? (
     <View></View>
   ) : !showScanner ? (
-    <TouchableOpacity
-      style={styles.checkInContainer}
-      onPress={() => setShowScanner(true)}
-    >
-      <Text
-        style={[globalStyles.h2, globalStyles.bold, globalStyles.colorWhite]}
-      >
-        {t("STATION_PAGE.CHECK_IN")}
-      </Text>
+    <TouchableOpacity style={styles.checkInContainer} onPress={() => setShowScanner(true)}>
+      <Text style={[globalStyles?.h2, globalStyles?.bold, globalStyles?.colorWhite]}>{t('STATION_PAGE.CHECK_IN')}</Text>
     </TouchableOpacity>
   ) : (
     <View style={styles.scannerPopup}>
       <View style={styles.scannerOverlay}></View>
       <View style={styles.scannerContainer}>
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={[styles.scanner]}
-        />
+        <BarCodeScanner onBarCodeScanned={scanned ? undefined : handleBarCodeScanned} style={[styles.scanner]} />
       </View>
-      <TouchableOpacity
-        style={styles.cancelContainer}
-        onPress={() => setShowScanner(false)}
-      >
-        <Image
-          style={styles.cancelImage}
-          source={require("./../assets/images/remove.png")}
-        ></Image>
+      <TouchableOpacity style={styles.cancelContainer} onPress={() => setShowScanner(false)}>
+        <Image style={styles.cancelImage} source={require('./../assets/images/remove.png')}></Image>
       </TouchableOpacity>
     </View>
   );
@@ -103,52 +76,52 @@ const QRScanner = ({ stationId }) => {
 
 const styles = StyleSheet.create({
   checkInContainer: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     left: 0,
-    width: "100%",
+    width: '100%',
     padding: 25,
-    display: "flex",
-    alignItems: "center",
-    backgroundColor: globalStyles.colorPrimary.color,
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: globalStyles?.colorPrimary.color,
   },
   complete: {
     width: 35,
     height: 35,
   },
   scannerPopup: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     zIndex: 99,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   scannerOverlay: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "black",
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'black',
     opacity: 0.4,
   },
   scannerContainer: {
     width: 300,
     height: 300,
-    backgroundColor: "red",
-    overflow: "hidden",
+    backgroundColor: 'red',
+    overflow: 'hidden',
 
-    shadowColor: "rgba(0,0,0,0.9)",
+    shadowColor: 'rgba(0,0,0,0.9)',
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 5,
     shadowOpacity: 0.25,
     elevation: 10,
     borderRadius: 20,
-    borderColor: globalStyles.colorPrimary.color,
+    borderColor: globalStyles?.colorPrimary.color,
     borderWidth: 5,
   },
   scanner: {
@@ -165,5 +138,3 @@ const styles = StyleSheet.create({
     height: 55,
   },
 });
-
-export default QRScanner;

@@ -1,20 +1,19 @@
-import { t } from "i18next";
-import React, { useState, useCallback, useRef, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import * as yup from "yup";
-import { Text, View, Image, StyleSheet, TextInput } from "react-native";
-import { useDispatch } from "react-redux";
+import React from 'react';
+import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import globalStyles from "../styles/globalStyles";
-import { Formik } from "formik";
+import { Formik } from 'formik';
+import { t } from 'i18next';
+import { useDispatch } from 'react-redux';
+import * as yup from 'yup';
+
+import { globalStyles } from '~styles';
 
 interface ISearch {
   search: string;
 }
 interface ISearchBarProps {}
 
-const SearchBar = (props: ISearchBarProps) => {
-  const { t } = useTranslation();
+export const SearchBar = (props: ISearchBarProps) => {
   const dispatch = useDispatch();
 
   const handleSubmit = async (values: ISearch) => {};
@@ -27,7 +26,7 @@ const SearchBar = (props: ISearchBarProps) => {
     <View style={SearchBarStyles.view}>
       <Formik
         initialValues={{
-          search: "",
+          search: '',
         }}
         validationSchema={validationSchema}
         onSubmit={async (values, actions) => {
@@ -37,20 +36,15 @@ const SearchBar = (props: ISearchBarProps) => {
       >
         {(props) => (
           <View style={SearchBarStyles.inputContainer}>
-            <Image
-              style={SearchBarStyles.icon}
-              source={require("./../assets/images/search.png")}
-            />
+            <Image style={SearchBarStyles.icon} source={require('./../assets/images/search.png')} />
             <TextInput
               style={SearchBarStyles.input}
-              placeholder={t("LANDING.SEARCH")}
-              onChangeText={props.handleChange("search")}
-              onBlur={props.handleBlur("search")}
+              placeholder={t('LANDING.SEARCH')}
+              onChangeText={props.handleChange('search')}
+              onBlur={props.handleBlur('search')}
               value={props.values.search}
             />
-            <Text style={globalStyles.errorText}>
-              {props.touched.search && props.errors.search}
-            </Text>
+            <Text style={globalStyles?.errorText}>{props.touched.search && props.errors.search}</Text>
           </View>
         )}
       </Formik>
@@ -60,16 +54,16 @@ const SearchBar = (props: ISearchBarProps) => {
 
 const SearchBarStyles = StyleSheet.create({
   view: {
-    width: "100%",
+    width: '100%',
     paddingHorizontal: 20,
   },
   inputContainer: {
-    width: "100%",
+    width: '100%',
     height: 70,
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: globalStyles.colorGrey.color,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: globalStyles?.colorGrey.color,
     borderRadius: 18,
   },
   icon: {
@@ -79,11 +73,9 @@ const SearchBarStyles = StyleSheet.create({
     marginLeft: 25,
   },
   input: {
-    color: "#101236",
-    fontFamily: "WalsheimProLight",
+    color: '#101236',
+    fontFamily: 'WalsheimProLight',
     fontSize: 16,
     marginTop: 2,
   },
 });
-
-export default SearchBar;

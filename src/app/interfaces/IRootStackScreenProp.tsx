@@ -1,5 +1,3 @@
-
-export default interface IRootStackScreenProp {
-    userToken: string | null;
-    versionSame: boolean;
-};
+export interface IRootStackScreenProp {
+  userToken: string | null;
+}
