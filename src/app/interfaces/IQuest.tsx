@@ -12,4 +12,5 @@ export interface IQuest {
   stations: number[];
   published: boolean;
   image: string;
+  distance: string;
 }

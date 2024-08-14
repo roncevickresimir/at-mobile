@@ -1,3 +1,5 @@
+import { t } from 'i18next';
+
 import { ILocation, IQuest } from '~interfaces';
 import { HttpMethods } from '~lookups';
 
@@ -55,7 +57,9 @@ export const questService = baseService.injectEndpoints({
             location: { lat: quest.latitude, lng: quest.longitude },
             userId: quest.userId,
             published: !quest.disabled,
-            image: /*apiUrl +*/ 'images/' + quest.image,
+            image:
+              'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg', //quest.image,
+            distance: quest.distance > 99 ? undefined /*t('QUEST_PAGE.FAR_AWAY')*/ : quest.distance,
           };
         });
         return quests;

@@ -74,6 +74,7 @@ const EN_GB = {
     DESTINATIONS: 'Quest destinations',
     REWARDS: 'Rewards',
     NO_REWARDS: 'No rewards',
+    FAR_AWAY: 'Far away',
   },
   STATION_PAGE: {
     REWARDS_AND_POINTS: 'Rewards & Points',

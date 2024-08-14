@@ -6,6 +6,8 @@ import { Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-n
 import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18next';
 
+
+
 import { IQuest } from '~interfaces';
 import { globalStyles } from '~styles';
 
@@ -32,6 +34,13 @@ export const QuestItem = (props: IQuestItemProps) => {
       style={carousel ? QuestItemCarouselStyles.touchable : QuestItemStyles.touchable}
     >
       <View style={carousel ? QuestItemCarouselStyles.questContainer : QuestItemStyles.questContainer}>
+        <View style={carousel ? QuestItemCarouselStyles.ratingContainer : QuestItemStyles.ratingContainer}>
+          <Image
+            style={carousel ? QuestItemCarouselStyles.ratingImage : QuestItemStyles.ratingImage}
+            source={require('./../assets/images/star.png')}
+          ></Image>
+          <Text style={[globalStyles?.normalText, !carousel && QuestItemStyles.text]}>4.7</Text>
+        </View>
         <View style={carousel ? QuestItemCarouselStyles.questImageContainer : QuestItemStyles.questImageContainer}>
           <Image
             style={carousel ? QuestItemCarouselStyles.questImage : QuestItemStyles.questImage}
@@ -56,11 +65,7 @@ export const QuestItem = (props: IQuestItemProps) => {
               {t('LANDING.DESTINATIONS')}
             </Text>
           </View>
-          <View style={carousel ? QuestItemCarouselStyles.ratingContainer : QuestItemStyles.ratingContainer}>
-            <Image
-              style={carousel ? QuestItemCarouselStyles.ratingImage : QuestItemStyles.ratingImage}
-              source={require('./../assets/images/star.png')}
-            ></Image>
+          <View style={carousel ? QuestItemCarouselStyles.distanceContainer : QuestItemStyles.distanceContainer}>
             <Text
               style={[
                 globalStyles?.normalText,
@@ -68,7 +73,7 @@ export const QuestItem = (props: IQuestItemProps) => {
                 !carousel && QuestItemStyles.textWhite,
               ]}
             >
-              4.7
+              {quest.distance ?? ''}
             </Text>
           </View>
         </View>
@@ -116,6 +121,24 @@ const QuestItemCarouselStyles = StyleSheet.create({
     marginTop: 18,
   },
   ratingContainer: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    width: 62,
+    height: 30,
+    marginTop: 10,
+    marginBottom: -40,
+    marginLeft: 190,
+    zIndex: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ratingImage: {
+    marginRight: 6,
+    marginTop: -2,
+  },
+  distanceContainer: {
     display: 'flex',
     flexDirection: 'row',
     width: '20%',
@@ -123,7 +146,7 @@ const QuestItemCarouselStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  ratingImage: {
+  distanceImage: {
     marginRight: 6,
   },
   textContainer: {
@@ -167,11 +190,30 @@ const QuestItemStyles = StyleSheet.create({
   },
   questInfoContainer: {
     display: 'flex',
-    width: '75%',
-    paddingHorizontal: 10,
+    width: '100%',
+    paddingHorizontal: 5,
     marginTop: 12,
   },
   ratingContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    backgroundColor: 'white',
+    borderRadius: 20,
+    width: 62,
+    height: 30,
+    marginTop: 5,
+    marginBottom: -35,
+    marginLeft: 105,
+    zIndex: 5,
+  },
+  ratingImage: {
+    marginRight: 6,
+    marginTop: -2,
+  },
+  distanceContainer: {
     display: 'flex',
     flexDirection: 'row',
     width: '20%',
@@ -179,7 +221,7 @@ const QuestItemStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  ratingImage: {
+  distanceImage: {
     marginRight: 6,
   },
   textContainer: {
