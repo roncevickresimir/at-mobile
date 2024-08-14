@@ -1,21 +1,30 @@
-import React, { useState, useCallback, useRef } from 'react';
-import { View, StyleSheet } from 'react-native';
-import IQuest from '../interfaces/IQuest';
-import QuestItem from './QuestItem';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+
+import { IQuest } from '~interfaces';
+
+import { QuestItem } from './QuestItem';
 
 interface IQuestListProps {
   items: IQuest[];
 }
 
-export const QuestList = (props: IQuestListProps) => {
+const QuestList = (props: IQuestListProps) => {
   const { items } = props;
+  const [quests, setQuests] = useState<IQuest[]>([]);
+
+  useEffect(() => {
+    setQuests(props.items);
+  }, [props]);
 
   return (
     <View style={QuestListStyles.view}>
       <View style={QuestListStyles.flex}>
-        {items.map((quest: IQuest, index: number) => {
-          return <QuestItem quest={quest} key={index} />;
-        })}
+        {quests.map((quest: IQuest, index: number) => (
+          <View key={index}>
+            <QuestItem quest={quest} />
+          </View>
+        ))}
       </View>
     </View>
   );
@@ -41,3 +50,5 @@ const QuestListStyles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
 });
+
+export { QuestList };

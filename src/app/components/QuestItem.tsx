@@ -1,13 +1,16 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 
+
+
 import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18next';
 
-import PATHS from '../../paths';
-import IQuest from '../interfaces/IQuest';
-import globalStyles from '../styles/globalStyles';
-import QuestUsers from './QuestUsers';
+import { IQuest } from '~interfaces';
+import { globalStyles } from '~styles';
+
+import { QuestUsers } from './QuestUsers';
+import PATHS from '.PATHS';
 
 interface IQuestItemProps {
   quest: IQuest;
@@ -69,7 +72,7 @@ export const QuestItem = (props: IQuestItemProps) => {
             </Text>
           </View>
         </View>
-        <QuestUsers number={quest?.users} carousel={carousel} />
+        <QuestUsers number={0} carousel={carousel} />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -79,15 +82,15 @@ const QuestItemCarouselStyles = StyleSheet.create({
   touchable: {
     display: 'flex',
     padding: 0,
-    width: 236,
-    height: 356,
+    width: 283,
+    height: 427,
     borderRadius: 20,
   },
   questContainer: {
     display: 'flex',
     padding: 10,
-    width: 236,
-    height: 356,
+    width: 283,
+    height: 427,
     backgroundColor: 'white',
 
     shadowColor: 'rgba(0,0,0,0.3)',
@@ -99,24 +102,24 @@ const QuestItemCarouselStyles = StyleSheet.create({
   },
   questImageContainer: {
     width: '100%',
-    height: 241,
+    height: 289,
   },
   questImage: {
     width: '100%',
-    height: 241,
+    height: 289,
     borderRadius: 14,
   },
   questInfoContainer: {
     display: 'flex',
     width: '75%',
     paddingHorizontal: 10,
-    marginTop: 12,
+    marginTop: 18,
   },
   ratingContainer: {
     display: 'flex',
     flexDirection: 'row',
     width: '20%',
-    marginTop: 12,
+    marginTop: 34,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -124,6 +127,8 @@ const QuestItemCarouselStyles = StyleSheet.create({
     marginRight: 6,
   },
   textContainer: {
+    marginTop: 20,
+    marginBottom: 5,
     display: 'flex',
     flexDirection: 'row',
   },
@@ -148,6 +153,7 @@ const QuestItemStyles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 5,
     elevation: 10,
+    marginTop: 10,
   },
   questImageContainer: {
     width: '100%',

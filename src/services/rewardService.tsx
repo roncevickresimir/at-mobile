@@ -1,9 +1,11 @@
-import { apiUrl, baseService } from "./baseService";
 import { HttpMethods } from "../app/lookups/httpMethods";
+import { apiUrl, baseService } from "./baseService";
+
 
 const URL = "reward";
 
 export const rewardService = baseService.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getRewardsByUserId: builder.query<any, string>({
       query: (userId) => ({
@@ -18,9 +20,7 @@ export const rewardService = baseService.injectEndpoints({
             id: reward.id,
             name: reward.name,
             description: reward.description,
-            image: reward.image
-              ? apiUrl + "images/" + reward.image
-              : reward.image,
+            image: reward.image ? apiUrl + 'images/' + reward.image : reward.image,
           };
         });
       },

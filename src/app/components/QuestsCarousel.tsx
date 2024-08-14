@@ -1,11 +1,11 @@
-import { t } from 'i18next';
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
-// import Carousel from 'react-native-reanimated-carousel';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-import IQuest from '../interfaces/IQuest';
-import globalStyles from '../styles/globalStyles';
-import QuestItem from './QuestItem';
+import PagerView from 'react-native-pager-view';
+
+import { IQuest } from '~interfaces';
+
+import { QuestItem } from './QuestItem';
 
 interface IQuestCarouselProps {
   items: IQuest[];
@@ -13,55 +13,26 @@ interface IQuestCarouselProps {
 
 export const QuestsCarousel = (props: IQuestCarouselProps) => {
   const { items } = props;
-  const [data, setData] = useState<IQuest[]>(items);
-  const width = Dimensions.get('window').width;
-
-  useEffect(() => {
-    setData(items);
-  }, [items]);
-
   return (
-    <View
-      style={{
-        alignItems: 'center',
-      }}
-    >
-      {/* <Carousel
-        style={QuestsCarouselStyles.carouselContainer}
-        loop
-        width={width}
-        height={356}
-        autoPlay={false}
-        data={data}
-        mode="parallax"
-        modeConfig={{
-          parallaxScrollingScale: 0.85,
-          parallaxScrollingOffset: 190,
-        }}
-        autoFillData={true}
-        scrollAnimationDuration={300}
-        windowSize={width}
-        enabled={true}
-        renderItem={({ item }) => {
-          return (
-            <View key={item.name} style={QuestsCarouselStyles.carouselItem}>
-              <QuestItem quest={item} key={item.id} carousel />
-            </View>
-          );
-        }}
-      /> */}
-    </View>
+    <PagerView style={QuestsCarouselStyles.carouselContainer} initialPage={0}>
+      {items?.map((quest, index) => (
+        <View style={QuestsCarouselStyles.carouselItem} key={index} collapsable={false}>
+          <QuestItem quest={quest} carousel={true} />
+        </View>
+      ))}
+    </PagerView>
   );
 };
 
 const QuestsCarouselStyles = StyleSheet.create({
-  view: {
-    width: '100%',
-  },
   carouselContainer: {
-    marginTop: -15,
+    flex: 1,
+    display: 'flex',
     width: '100%',
     overflow: 'visible',
+    marginTop: -5,
+    marginBottom: 15,
+    height: 450,
   },
   carouselItem: {
     width: '100%',

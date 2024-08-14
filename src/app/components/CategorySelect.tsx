@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { t } from 'i18next';
@@ -7,11 +7,11 @@ import { ICategory, useLazyGetCategoriesQuery } from '~services';
 import { globalStyles } from '~styles';
 
 interface ICategorySelectProps {
-  setCategory: (value: string) => void;
+  setCategory: (value: string | undefined) => void;
 }
 
 export const CategorySelect = (props: ICategorySelectProps) => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
   const [categories, setCategories] = useState<ICategory[] | null>([]);
   const { setCategory } = props;
 
@@ -25,7 +25,7 @@ export const CategorySelect = (props: ICategorySelectProps) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [activeIndex]);
 
   return (
     <View style={CategorySelectStyles.view}>
@@ -33,11 +33,11 @@ export const CategorySelect = (props: ICategorySelectProps) => {
         <View
           style={[CategorySelectStyles.category, CategorySelectStyles.firstCategory]}
           onTouchEnd={() => {
-            setActiveIndex(null);
-            setCategories(null);
+            setActiveIndex(undefined);
+            setCategory(undefined);
           }}
         >
-          <Text style={activeIndex === null ? globalStyles?.normalText : globalStyles?.lightText}>
+          <Text style={activeIndex === undefined ? globalStyles?.normalText : globalStyles?.lightText}>
             {t('LANDING.ALL')}
           </Text>
         </View>
@@ -63,8 +63,8 @@ export const CategorySelect = (props: ICategorySelectProps) => {
 };
 const CategorySelectStyles = StyleSheet.create({
   view: {
-    paddingVertical: 10,
-    borderRadius: 20,
+    paddingVertical: 0,
+    borderRadius: 0,
   },
   category: {
     paddingVertical: 5,

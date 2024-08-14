@@ -1,17 +1,19 @@
-import { apiUrl, baseService } from "./baseService";
-import { HttpMethods } from "../app/lookups/httpMethods";
-import IQuest from "../app/interfaces/IQuest";
+import { HttpMethods } from '~lookups';
 
-const URL = "category";
+import { baseService } from './baseService';
+
+const URL = 'categories';
 
 export interface ICategory {
-  name: string;
   id: string;
+  abrv: string;
+  name: string;
 }
 
 interface ICategoryResponse {}
 
 export const categoryService = baseService.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getCategories: builder.query<ICategory[], null>({
       query: () => ({

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 
+
 export const globalStyles = StyleSheet.create({
   colorPrimary: {
     color: '#FF9254',
@@ -86,7 +87,7 @@ export const globalStyles = StyleSheet.create({
     fontSize: 18,
   },
   font18: {
-    fontSize: 22,
+    fontSize: 28,
   },
   mb2: {
     marginBottom: 4,

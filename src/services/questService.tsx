@@ -1,13 +1,14 @@
-import { apiUrl, baseService } from './baseService';
-import { HttpMethods } from '../app/lookups/httpMethods';
-import IQuest from '../app/interfaces/IQuest';
+import { ILocation, IQuest } from '~interfaces';
+import { HttpMethods } from '~lookups';
 
-const URL = 'quest';
+import { baseService } from './baseService';
+
+const URL = 'quests';
 
 export interface IGetQuestsPayload {
-  search: string;
   page: number;
   rpp: number;
+  location: ILocation;
   category?: string;
 }
 
@@ -30,25 +31,31 @@ interface IGetQuestById {
 }
 
 export const questService = baseService.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getQuests: builder.query<IQuest[], IGetQuestsPayload>({
       query: (data) => ({
-        url: `${URL}/closest/?page=${data.page}&rpp=${data.rpp}${data.search && 'search=' + data.search}`,
-        method: HttpMethods.POST,
-        body: data,
+        url:
+          `${URL}/closest?` +
+          `page=${data.page}` +
+          `&rpp=${data.rpp}` +
+          `${data.category ? `&category=${data.category}` : ''}` +
+          `&lat=${data.location.lat}` +
+          `&lng=${data.location.lng}`,
+        method: HttpMethods.GET,
       }),
-      transformResponse: (response: IQuestResponse[]) => {
-        const quests: IQuest[] = response.map((quest) => {
+      transformResponse: (response: any) => {
+        const quests = response?.map((quest: any) => {
           return {
             id: quest.id,
             name: quest.title,
             description: quest.description,
-            categories: quest.categoryIds,
-            stations: quest.QuestStationRelations,
+            categories: quest.Categories,
+            stations: quest.Stations,
             location: { lat: quest.latitude, lng: quest.longitude },
             userId: quest.userId,
             published: !quest.disabled,
-            image: apiUrl + 'images/' + quest.image,
+            image: /*apiUrl +*/ 'images/' + quest.image,
           };
         });
         return quests;

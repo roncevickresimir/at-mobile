@@ -1,11 +1,15 @@
 import { ILogin, ILoginResponse, IRegister, IRegisterResponse, IUser } from '~interfaces';
 
+
+
 import { HttpMethods } from '../app/lookups/httpMethods';
 import { baseService } from './baseService';
+
 
 const URL = '/users';
 
 export const userService = baseService.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     registerUser: builder.mutation<IRegisterResponse, IRegister>({
       query: (body) => ({

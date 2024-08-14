@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import React from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18next';
@@ -10,23 +9,22 @@ import { CategorySelect, QuestList, QuestsCarousel } from '~components';
 import { IQuest } from '~interfaces';
 import { IGetQuestsPayload, useLazyGetQuestsQuery } from '~services';
 import { globalStyles } from '~styles';
-
-import { useAppSelector } from '../../utils/hooks';
+import { useAppSelector } from '~utils';
 
 export const LandingPage = () => {
   const [quests, setQuests] = useState<IQuest[]>([]);
-  const [category, setCategory] = useState<string>('');
+  const [category, setCategory] = useState<string | undefined>(undefined);
 
-  const user = useAppSelector((state) => state?.auth?.user?.User);
+  const user = useAppSelector((state) => state?.auth?.user);
   const navigation = useNavigation();
 
-  const [getQuests, { isLoading: listLoading, isUninitialized: listUninitialized }] = useLazyGetQuestsQuery();
+  const [getQuests, { isLoading: questsLoading, isUninitialized: questsUninitialized }] = useLazyGetQuestsQuery();
 
   const [getQuestsPayload, setGetQuestsPayload] = useState<IGetQuestsPayload>({
-    search: '',
-    page: 1,
+    page: 0,
     rpp: 10,
-    category: undefined,
+    category: category,
+    location: { lat: 0, lng: 0 },
   });
 
   const fetchData = async () => {
@@ -45,8 +43,6 @@ export const LandingPage = () => {
   useEffect(() => {
     setGetQuestsPayload({ ...getQuestsPayload, category: category });
   }, [category]);
-
-  const { height } = Dimensions.get('screen');
 
   return (
     <View style={[{ flex: 1 }, LandingPageStyles.view]}>
@@ -75,26 +71,26 @@ export const LandingPage = () => {
         </View>
         <View>
           <CategorySelect
-            setCategory={(value: string) => {
+            setCategory={(value: string | undefined) => {
               setCategory(value);
             }}
           />
         </View>
       </View>
 
-      {quests.length ? (
+      {quests?.length ? (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View style={LandingPageStyles.questSliderContainer}>
             <Text style={[globalStyles?.h2, globalStyles?.font18, globalStyles?.p20]}>
               {t('LANDING.QUESTS_NEARBY')}
             </Text>
             <QuestsCarousel items={quests} />
-            <View style={LandingPageStyles.questListContainer}>
-              <Text style={[globalStyles?.h2, globalStyles?.font18, globalStyles?.p20, globalStyles?.colorSecondary]}>
-                {t('LANDING.QUESTS_OTHER')}
-              </Text>
-              <QuestList items={quests} />
-            </View>
+          </View>
+          <View style={LandingPageStyles.questListContainer}>
+            <Text style={[globalStyles?.h2, globalStyles?.font18, globalStyles?.p20, globalStyles?.colorSecondary]}>
+              {t('LANDING.QUESTS_OTHER')}
+            </Text>
+            <QuestList items={quests} />
           </View>
         </ScrollView>
       ) : (
@@ -169,6 +165,7 @@ const LandingPageStyles = StyleSheet.create({
   questSliderContainer: {
     width: '100%',
     marginBottom: -20,
+    marginTop: -20,
   },
   questListContainer: {
     width: '100%',

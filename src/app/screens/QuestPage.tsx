@@ -39,8 +39,6 @@ export const QuestPage = (props: any) => {
       setQuest(undefined);
     }
 
-    console.log(getQuestResponse);
-
     setQuest(getQuestResponse);
 
     let rewardsArray: IReward[] = [];

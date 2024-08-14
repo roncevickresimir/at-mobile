@@ -1,7 +1,9 @@
 import { AT_API_URI } from '@env';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { RootState } from '../store';
+
+
+import { RootState } from '.STORE';
 
 export const baseService = createApi({
   baseQuery: fetchBaseQuery({

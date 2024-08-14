@@ -1,6 +1,7 @@
-import { apiUrl, baseService } from "./baseService";
-import { HttpMethods } from "../app/lookups/httpMethods";
 import IStation from "../app/interfaces/IStation";
+import { HttpMethods } from "../app/lookups/httpMethods";
+import { apiUrl, baseService } from "./baseService";
+
 
 const URL = "station";
 
@@ -28,6 +29,7 @@ export interface ICompleteStationPayload {
 }
 
 export const stationService = baseService.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getStation: builder.query<IStation, IGetStationPayload>({
       query: (data) => ({
@@ -43,15 +45,13 @@ export const stationService = baseService.injectEndpoints({
           location: { lat: station.latitude, lng: station.longitude },
           userId: station.userId,
           published: !station.disabled,
-          image: apiUrl + "images/" + station.Images[0].fileName,
+          image: apiUrl + 'images/' + station.Images[0].fileName,
           reward: station.RewardTypes.map((reward: any) => {
             return {
               id: reward.id,
               name: reward.name,
               description: reward.description,
-              image: reward.image
-                ? apiUrl + "images/" + reward.image
-                : reward.image,
+              image: reward.image ? apiUrl + 'images/' + reward.image : reward.image,
             };
           }),
         };
