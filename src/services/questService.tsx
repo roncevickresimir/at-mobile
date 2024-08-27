@@ -1,5 +1,7 @@
 import { t } from 'i18next';
 
+
+
 import { ILocation, IQuest } from '~interfaces';
 import { HttpMethods } from '~lookups';
 
@@ -70,36 +72,37 @@ export const questService = baseService.injectEndpoints({
         url: `${URL}/${data.questId}/${data.userId}`,
         method: HttpMethods.GET,
       }),
-      transformResponse: (quest: IQuestResponse) => {
+      transformResponse: (quest: any) => {
         return {
           id: quest.id,
           name: quest.title,
           description: quest.description,
-          categories: quest.categoryIds,
-          location: { lat: quest.latitude, lng: quest.longitude },
           userId: quest.userId,
+          location: { lat: quest.latitude, lng: quest.longitude },
           published: !quest.disabled,
-          image: apiUrl + 'images/' + quest.image,
-          stations: quest.QuestStationRelations.map((station: any) => {
-            const x = station.Station;
+          // categories: quest.categoryIds,
+          image: 'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg', //quest.image,
+          stations: quest.Stations.map((station: any) => {
             return {
-              id: x.id,
-              name: x.title,
-              description: x.description,
-              categories: x.categoryIds,
-              userId: x.userId,
-              location: { lat: quest.latitude, lng: quest.longitude },
-              published: !x.disabled,
-              complete: x.EndUserStations.length ? true : false,
-              image: '',
-              reward: x.RewardTypes.map((reward: any) => {
-                return {
-                  id: reward.id,
-                  name: reward.name,
-                  description: reward.description,
-                  image: reward.image ? apiUrl + 'images/' + reward.image : reward.image,
-                };
-              }),
+              id: station.id,
+              name: station.title,
+              description: station.description,
+              // categories: station.categoryIds,
+              userId: station.userId,
+              location: station.location,
+              published: !station.disabled,
+              complete: !!station.UserStations.length,
+              image:
+                'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg', //station.image,
+            };
+          }),
+          reward: quest.Rewards?.map((reward: any) => {
+            return {
+              id: reward.id,
+              name: reward.name,
+              description: reward.description,
+              image:
+                'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg', //reward.image,
             };
           }),
         };
@@ -125,7 +128,8 @@ export const questService = baseService.injectEndpoints({
               location: { lat: x.latitude, lng: x.longitude },
               userId: x.userId,
               published: !x.disabled,
-              image: apiUrl + 'images/' + x.image,
+              image:
+                'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg', //reward.image,
             });
           });
         });

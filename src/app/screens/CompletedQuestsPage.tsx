@@ -1,27 +1,28 @@
 import { useEffect, useState } from 'react';
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-// import { ScrollView } from 'react-native-gesture-handler';
 import { t } from 'i18next';
 
-import { useLazyGetCompletedQuestsQuery } from '../../services/questService';
-import { useAppSelector } from '../../utils/hooks';
-import IQuest from '../interfaces/IQuest';
-import globalStyles from '../styles/globalStyles';
-import QuestList from './../components/QuestList';
-import QuestsCarousel from './../components/QuestsCarousel';
+import { QuestList, QuestsCarousel } from '~components';
+import { IQuest } from '~interfaces';
+import { useLazyGetCompletedQuestsQuery } from '~services';
+import { globalStyles } from '~styles';
+import { useAppSelector } from '~utils';
 
 export const CompletedQuestsPage = () => {
   const [quests, setQuests] = useState<IQuest[]>([]);
-  const user = useAppSelector((state) => state?.auth?.user?.User);
+  const user = useAppSelector((state) => state?.auth?.user);
+
   const navigation = useNavigation();
 
   const [getQuests, { isLoading: listLoading, isUninitialized: listUninitialized }] = useLazyGetCompletedQuestsQuery();
 
   const fetchData = async () => {
-    const getQuestsResponse = await getQuests(user.id).unwrap();
-    setQuests(getQuestsResponse);
+    if (user?.id) {
+      const getQuestsResponse = await getQuests(user.id).unwrap();
+      setQuests(getQuestsResponse);
+    }
   };
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export const CompletedQuestsPage = () => {
             <View style={LandingPageStyles.avatarContainer}>
               <Image
                 style={LandingPageStyles.avatarImage}
-                source={user?.image ? user.image : require('./../assets/images/avatar.png')}
+                source={/*user?.image ? user.image : */ require('./../assets/images/avatar.png')}
               ></Image>
             </View>
             <View style={LandingPageStyles.usernameContainer}>

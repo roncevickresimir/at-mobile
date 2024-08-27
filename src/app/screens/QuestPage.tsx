@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import {
   Image,
   Linking,
@@ -25,20 +25,22 @@ export const QuestPage = (props: any) => {
   const [quest, setQuest] = useState<IQuest>();
   const [rewards, setRewards] = useState<IReward[]>([]);
 
-  const user = useAppSelector((state) => state?.auth?.user?.User);
+  const user = useAppSelector((state) => state.auth.user);
   const navigation = useNavigation();
   const [getQuest, { isLoading: getQuestLoading, isUninitialized: getQuestUninitialized }] = useLazyGetQuestByIdQuery();
+  const [showMoreDescription, setShowMoreDescription] = useState<boolean>(false);
 
   const fetchData = async () => {
-    const getQuestResponse = await getQuest({
-      questId: 'aa90c0bb-ead7-435e-9cba-8b7fac571b8a', //props.route.params.id
-      userId: user?.id,
-    }).unwrap();
-
-    if (!getQuestResponse) {
-      setQuest(undefined);
+    if (!user) {
+      return;
     }
 
+    const getQuestResponse = await getQuest({
+      questId: props.route.params.id,
+      userId: user.id,
+    }).unwrap();
+
+    console.log(getQuestResponse);
     setQuest(getQuestResponse);
 
     let rewardsArray: IReward[] = [];
@@ -68,8 +70,10 @@ export const QuestPage = (props: any) => {
     return willFocusSubscription;
   }, []);
 
-  return (
-    <View>
+  return !quest ? (
+    <></>
+  ) : (
+    <View style={{ backgroundColor: 'white' }}>
       <TouchableOpacity
         style={QuestPageStyles.backContainer}
         onPress={() => {
@@ -152,11 +156,13 @@ export const QuestPage = (props: any) => {
           </View>
 
           <View style={QuestPageStyles.content}>
-            <Text style={[globalStyles.lightText]}>
-              {`${quest?.description.slice(0, 250)}${
-                quest?.description?.length ? quest?.description?.length > 250 && '...' : ''
-              }`}
-            </Text>
+            <TouchableWithoutFeedback onPress={() => setShowMoreDescription(!showMoreDescription)}>
+              <Text style={[globalStyles.lightText]}>
+                {`${showMoreDescription ? quest.description : quest?.description.slice(0, 250)}${
+                  !showMoreDescription && quest?.description?.length > 250 ? '...' : ''
+                }`}
+              </Text>
+            </TouchableWithoutFeedback>
             <View style={QuestPageStyles.users}>
               <QuestUsers number={0 /*quest?.users  ??*/} big={true} />
             </View>
@@ -206,6 +212,7 @@ const QuestPageStyles = StyleSheet.create({
     flexDirection: 'column',
     width: '100%',
     height: '100%',
+    paddingBottom: 60,
   },
   header: {
     width: '100%',
@@ -353,5 +360,12 @@ const QuestPageStyles = StyleSheet.create({
   },
   coinName: {
     marginTop: 5,
+  },
+  mapContainer: {
+    flex: 1,
+  },
+  map: {
+    width: '100%',
+    height: '100%',
   },
 });

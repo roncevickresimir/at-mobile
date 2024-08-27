@@ -52,7 +52,7 @@ export const LandingPage = () => {
             <View style={LandingPageStyles.avatarContainer}>
               <Image
                 style={LandingPageStyles.avatarImage}
-                source={user?.image ? user.image : require('./../assets/images/avatar.png')}
+                source={/*user?.image ? user.image : */require('./../assets/images/avatar.png')}
               ></Image>
             </View>
             <View style={LandingPageStyles.usernameContainer}>

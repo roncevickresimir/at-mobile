@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import PagerView from 'react-native-pager-view';
@@ -13,9 +13,22 @@ interface IQuestCarouselProps {
 
 export const QuestsCarousel = (props: IQuestCarouselProps) => {
   const { items } = props;
+  const [quests, setQuests] = useState<IQuest[]>([]);
+  const pagerViewRef = useRef();
+
+  useEffect(() => {
+    setQuests(items?.length ? [items[items.length - 1], ...items, items[0]] : []);
+  }, [props]);
+
   return (
-    <PagerView style={QuestsCarouselStyles.carouselContainer} initialPage={0}>
-      {items?.map((quest, index) => (
+    <PagerView
+      key={quests.length}
+      style={QuestsCarouselStyles.carouselContainer}
+      initialPage={0}
+      overdrag={true}
+      overScrollMode={'always'}
+    >
+      {quests.map((quest, index) => (
         <View style={QuestsCarouselStyles.carouselItem} key={index} collapsable={false}>
           <QuestItem quest={quest} carousel={true} />
         </View>

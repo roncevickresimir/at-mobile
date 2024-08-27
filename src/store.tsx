@@ -4,10 +4,13 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { combineReducers } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 
+
+
+import { baseService } from '~services';
+
 import authReducer from './app/slices/authSlice';
 import languageReducer from './app/slices/languageSlice';
 import roleReducer from './app/slices/roleSlice';
-import { baseService } from './services/baseService';
 
 const persistConfig = {
   key: 'root',

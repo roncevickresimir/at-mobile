@@ -1,6 +1,8 @@
 import { IUser } from './IUser';
 
-export interface ILoginResponse extends IUser {
+
+export interface ILoginResponse {
+  User: IUser;
   token: string;
 }
 export interface IRegisterResponse {

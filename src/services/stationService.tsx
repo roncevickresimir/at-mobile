@@ -1,9 +1,9 @@
-import IStation from "../app/interfaces/IStation";
-import { HttpMethods } from "../app/lookups/httpMethods";
-import { apiUrl, baseService } from "./baseService";
+import { IStation } from '~interfaces';
 
+import { HttpMethods } from '../app/lookups/httpMethods';
+import { apiUrl, baseService } from './baseService';
 
-const URL = "station";
+const URL = 'stations';
 
 export interface IGetStationPayload {
   id: string;
@@ -36,24 +36,19 @@ export const stationService = baseService.injectEndpoints({
         url: `${URL}/${data.id}`,
         method: HttpMethods.GET,
       }),
-      transformResponse: (station: IStationResponse) => {
+      transformResponse: (station: any) => {
         return {
           id: station.id,
           name: station.title,
           description: station.description,
-          categories: station.categoryIds,
-          location: { lat: station.latitude, lng: station.longitude },
+          // categories: station.categoryIds,
           userId: station.userId,
+          questId: station.questId,
           published: !station.disabled,
-          image: apiUrl + 'images/' + station.Images[0].fileName,
-          reward: station.RewardTypes.map((reward: any) => {
-            return {
-              id: reward.id,
-              name: reward.name,
-              description: reward.description,
-              image: reward.image ? apiUrl + 'images/' + reward.image : reward.image,
-            };
-          }),
+          location: { lat: station.latitude, lng: station.longitude },
+          image: 'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg',
+          // apiUrl + 'images/' + station.image,
+          // reward: [],
         };
       },
     }),
@@ -69,5 +64,4 @@ export const stationService = baseService.injectEndpoints({
   }),
 });
 
-export const { useLazyGetStationQuery, useLazyCompleteStationQuery } =
-  stationService;
+export const { useLazyGetStationQuery, useLazyCompleteStationQuery } = stationService;

@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { Dimensions } from 'react-native';
 
-import PATHS from '../../paths';
-import globalStyles from '../styles/globalStyles';
+import { globalStyles } from '~styles';
+
+import PATHS from '.PATHS';
 
 interface ITabBarProps {
   state: any;

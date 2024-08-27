@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { Image, ImageSourcePropType, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+
+
 import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18next';
 import { useDispatch } from 'react-redux';
 
-import { useAppSelector } from '../../utils/hooks';
-import { logout } from '../slices/authSlice';
-import globalStyles from '../styles/globalStyles';
+import { logout } from '~slices';
+import { globalStyles } from '~styles';
+import { useAppSelector } from '~utils';
 
 export const MyProfilePage = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const user = useAppSelector((state) => state?.auth?.user?.User);
+  const user = useAppSelector((state) => state.auth.user);
 
   interface ILink {
     name: string;
@@ -74,11 +76,11 @@ export const MyProfilePage = () => {
   ];
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       <TouchableOpacity
         style={RewardsPageStyles.backContainer}
         onPress={() => {
-          navigation.goBack(null); // needs null for some reason
+          navigation.goBack();
         }}
       >
         <Image style={RewardsPageStyles.back} source={require('./../assets/images/back.png')} />
@@ -101,10 +103,10 @@ export const MyProfilePage = () => {
         <View style={[RewardsPageStyles.row, globalStyles?.flexCenter, RewardsPageStyles.user]}>
           <Image
             style={RewardsPageStyles.avatar}
-            source={user?.image ? user.image : require('./../assets/images/avatar.png')}
+            source={/*user?.image ? user.image :*/ require('./../assets/images/avatar.png')}
           ></Image>
-          <Text style={[globalStyles?.normalText, globalStyles?.font18]}>{user.username}</Text>
-          <Text style={globalStyles?.lightText}>{user.email}</Text>
+          <Text style={[globalStyles?.normalText, globalStyles?.font18]}>{user?.username}</Text>
+          <Text style={globalStyles?.lightText}>{user?.email}</Text>
         </View>
       </View>
 
@@ -207,6 +209,7 @@ const RewardsPageStyles = StyleSheet.create({
   },
 
   backContainer: {
+    backgroundColor: 'white',
     position: 'absolute',
     top: 50,
     left: 25,

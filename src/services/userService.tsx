@@ -1,8 +1,8 @@
 import { ILogin, ILoginResponse, IRegister, IRegisterResponse, IUser } from '~interfaces';
+import { HttpMethods } from '~lookups';
 
 
 
-import { HttpMethods } from '../app/lookups/httpMethods';
 import { baseService } from './baseService';
 
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Image, Keyboard, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 
+
+
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import { t } from 'i18next';
@@ -49,10 +51,10 @@ export const CreateAccount = () => {
           loginUser({ email, password })
             .unwrap()
             .then((loginResponse: ILoginResponse) => {
-              const { token, ...user } = loginResponse;
+              const { token, User } = loginResponse;
               dispatch(
                 login({
-                  user: { ...user },
+                  user: { ...User },
                   token: token,
                 }),
               );

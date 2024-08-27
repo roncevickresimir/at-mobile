@@ -1,32 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  Dimensions,
   Image,
   Linking,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18next';
+import MapView, { Marker } from 'react-native-maps';
 
-import {
-  ICompleteStationPayload,
-  IGetStationPayload,
-  useLazyCompleteStationQuery,
-  useLazyGetStationQuery,
-} from '../../services/stationService';
-import { useAppSelector } from '../../utils/hooks';
-import { IStation } from '../interfaces';
-import globalStyles from '../styles/globalStyles';
+import { QRScanner } from '~components';
+import { IStation } from '~interfaces';
+import { IGetStationPayload, useLazyGetStationQuery } from '~services';
+import { globalStyles } from '~styles';
 
 export const StationPage = (props: any) => {
   const [station, setStation] = useState<IStation | null>();
   const [stationComplete, setStationComplete] = useState<boolean>(props?.route?.params?.complete);
+  const [showMoreDescription, setShowMoreDescription] = useState<boolean>(false);
 
   const navigation = useNavigation();
   const googleMapOpenUrl = ({ latitude, longitude }) => {
@@ -81,7 +77,7 @@ export const StationPage = (props: any) => {
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={StationPageStyles.rewards}>
-                {station?.reward.length ? (
+                {/* {station?.reward.length ? (
                   station?.reward?.map((reward, index) => {
                     return (
                       <View key={index} style={[StationPageStyles.reward, !index && StationPageStyles.firstReward]}>
@@ -91,7 +87,7 @@ export const StationPage = (props: any) => {
                           <Image
                             style={StationPageStyles.rewardImage}
                             source={require('./../assets/images/reward.png')}
-                          ></Image>
+                          ></Image>r
                         )}
                         <Text
                           style={[globalStyles?.normalText, globalStyles?.colorWhite, StationPageStyles.rewardName]}
@@ -111,11 +107,12 @@ export const StationPage = (props: any) => {
                       {t('STATION_PAGE.NO_REWARDS')}
                     </Text>
                   </View>
-                )}
+                )} */}
                 <View style={StationPageStyles.reward}>
                   <Image style={StationPageStyles.coinImage} source={require('./../assets/images/coin.png')}></Image>
                   <Text style={[globalStyles?.normalText, globalStyles?.colorWhite, StationPageStyles.coinName]}>
-                    {station?.reward.length * 21} points
+                    {/* {station?.reward.length * 21} points */}
+                    20 points
                   </Text>
                 </View>
               </View>
@@ -137,12 +134,17 @@ export const StationPage = (props: any) => {
           </View>
 
           <View style={StationPageStyles.content}>
-            <Text style={[globalStyles?.lightText]}>
-              {`${station?.description?.slice(0, 500)}${station?.description?.length > 500 ? '...' : ''}`}
-            </Text>
+            {/* <TouchableWithoutFeedback onPress={() => setShowMoreDescription(!showMoreDescription)}>
+              <Text style={[globalStyles.lightText]}>
+                {`${showMoreDescription ? station?.description : station?.description.slice(0, 400)}${
+                  !showMoreDescription && station?.description?.length > 300 ? '...' : ''
+                }`}
+              </Text>
+            </TouchableWithoutFeedback> */}
+            <Text style={[globalStyles.lightText]}>{station?.description}</Text>
 
             <View style={StationPageStyles.mapContainer}>
-              {/* <MapView
+              <MapView
                 style={StationPageStyles.map}
                 showsUserLocation
                 region={{
@@ -158,7 +160,7 @@ export const StationPage = (props: any) => {
                     longitude: station?.location?.lng || 0,
                   }}
                 />
-              </MapView> */}
+              </MapView>
             </View>
           </View>
         </View>
@@ -181,7 +183,7 @@ const StationPageStyles = StyleSheet.create({
     flexDirection: 'column',
     width: '100%',
     height: '100%',
-    paddingBottom: 70,
+    paddingBottom: 120,
     backgroundColor: 'white',
   },
   header: {
@@ -261,6 +263,7 @@ const StationPageStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    marginLeft: 30,
   },
   reward: {
     display: 'flex',

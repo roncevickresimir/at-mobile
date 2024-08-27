@@ -21,3 +21,5 @@ export const baseService = createApi({
   tagTypes: [],
   endpoints: () => ({}),
 });
+
+export const apiUrl = AT_API_URI;
