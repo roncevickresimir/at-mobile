@@ -18,7 +18,8 @@
       "~utils": ["utils"],
       ".PATHS": ["paths.tsx"],
       ".ROUTES": ["routes.tsx"],
-      ".STORE": ["store.tsx"] 
+      ".STORE": ["store.tsx"],
+      ".CONFIG": ["config.tsx"] 
     }
   }
 }

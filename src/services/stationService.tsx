@@ -1,7 +1,10 @@
 import { IStation } from '~interfaces';
 
+
+
 import { HttpMethods } from '../app/lookups/httpMethods';
-import { apiUrl, baseService } from './baseService';
+import { baseService } from './baseService';
+import { Config } from '.CONFIG';
 
 const URL = 'stations';
 
@@ -46,8 +49,7 @@ export const stationService = baseService.injectEndpoints({
           questId: station.questId,
           published: !station.disabled,
           location: { lat: station.latitude, lng: station.longitude },
-          image: 'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg',
-          // apiUrl + 'images/' + station.image,
+          image: `${Config.AT_IMAGE_URI}/${URL}/${station.image}`,
           // reward: [],
         };
       },

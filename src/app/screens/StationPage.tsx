@@ -1,33 +1,35 @@
 import { useEffect, useState } from 'react';
-import {
-  Image,
-  Linking,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import { Image, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+
+
 
 import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18next';
 import MapView, { Marker } from 'react-native-maps';
 
+
+
 import { QRScanner } from '~components';
-import { IStation } from '~interfaces';
+import { ILocation, IStation } from '~interfaces';
 import { IGetStationPayload, useLazyGetStationQuery } from '~services';
 import { globalStyles } from '~styles';
+
 
 export const StationPage = (props: any) => {
   const [station, setStation] = useState<IStation | null>();
   const [stationComplete, setStationComplete] = useState<boolean>(props?.route?.params?.complete);
-  const [showMoreDescription, setShowMoreDescription] = useState<boolean>(false);
+  // const [showMoreDescription, setShowMoreDescription] = useState<boolean>(false);
 
   const navigation = useNavigation();
-  const googleMapOpenUrl = ({ latitude, longitude }) => {
-    const latLng = `${latitude},${longitude}`;
-    return `google.navigation:q=${latLng}`;
+
+  const getMapUrl = (location: ILocation) => {
+    const scheme = Platform.select({ ios: 'maps://0,0?q=', android: 'geo:0,0?q=' });
+    const latLng = `${location.lat},${location.lng}`;
+    const label = station?.name;
+    return Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`,
+    });
   };
 
   const [getStation, { isLoading: stationLoading, isUninitialized: stationUninitialized }] = useLazyGetStationQuery();
@@ -43,9 +45,13 @@ export const StationPage = (props: any) => {
 
   useEffect(() => {
     fetchData();
+    navigation.setOptions({ tabBarStyle: { display: 'none' } });
+    navigation.setOptions({ tabBarVisible: false });
   }, []);
 
-  return (
+  return !station ? (
+    <></>
+  ) : (
     <View style={{ flex: 1 }}>
       <TouchableOpacity
         style={StationPageStyles.backContainer}
@@ -121,12 +127,7 @@ export const StationPage = (props: any) => {
             <TouchableOpacity
               style={StationPageStyles.mapsContainer}
               onPress={() => {
-                Linking.openURL(
-                  googleMapOpenUrl({
-                    latitude: station?.location?.lat,
-                    longitude: station?.location?.lng,
-                  }),
-                );
+                Linking.openURL(getMapUrl(station?.location));
               }}
             >
               <Image style={StationPageStyles.mapsImage} source={require('./../assets/images/gps.png')} />
@@ -141,7 +142,7 @@ export const StationPage = (props: any) => {
                 }`}
               </Text>
             </TouchableWithoutFeedback> */}
-            <Text style={[globalStyles.lightText]}>{station?.description}</Text>
+            <Text style={[globalStyles.lightText]}>{station?.description.replace(/\s\s+/g, ' ').replace(/(\r\n|\n|\r)/gm, "")}</Text>
 
             <View style={StationPageStyles.mapContainer}>
               <MapView
@@ -165,6 +166,7 @@ export const StationPage = (props: any) => {
           </View>
         </View>
       </ScrollView>
+
       {!stationComplete ? (
         <QRScanner stationId={station?.id} />
       ) : (

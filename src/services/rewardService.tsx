@@ -1,8 +1,8 @@
-import { HttpMethods } from "../app/lookups/httpMethods";
-import { apiUrl, baseService } from "./baseService";
+import { HttpMethods } from '../app/lookups/httpMethods';
+import { baseService } from './baseService';
+import { Config } from '.CONFIG';
 
-
-const URL = "reward";
+const URL = 'reward';
 
 export const rewardService = baseService.injectEndpoints({
   overrideExisting: true,
@@ -14,13 +14,14 @@ export const rewardService = baseService.injectEndpoints({
       }),
 
       transformResponse: (response: any) => {
+        console.log(response);
         return response.map((r: any) => {
           const reward = r.RewardType;
           return {
             id: reward.id,
             name: reward.name,
             description: reward.description,
-            image: reward.image ? apiUrl + 'images/' + reward.image : reward.image,
+            image: `${Config.AT_IMAGE_URI}/${URL}/${reward.image}`,
           };
         });
       },

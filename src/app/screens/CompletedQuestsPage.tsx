@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+
+
 import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18next';
 
 import { QuestList, QuestsCarousel } from '~components';
 import { IQuest } from '~interfaces';
-import { useLazyGetCompletedQuestsQuery } from '~services';
+import { useLazyGetUserQuestsQuery } from '~services';
 import { globalStyles } from '~styles';
 import { useAppSelector } from '~utils';
 
@@ -16,7 +18,7 @@ export const CompletedQuestsPage = () => {
 
   const navigation = useNavigation();
 
-  const [getQuests, { isLoading: listLoading, isUninitialized: listUninitialized }] = useLazyGetCompletedQuestsQuery();
+  const [getQuests, { isLoading: listLoading, isUninitialized: listUninitialized }] = useLazyGetUserQuestsQuery();
 
   const fetchData = async () => {
     if (user?.id) {
@@ -57,7 +59,7 @@ export const CompletedQuestsPage = () => {
         </View>
       </View>
 
-      {quests.length ? (
+      {quests?.length ? (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View style={LandingPageStyles.questSliderContainer}>
             <Text style={[globalStyles?.h2, globalStyles?.font18, globalStyles?.p20]}>

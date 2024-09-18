@@ -1,17 +1,12 @@
 import { ReactElement, useEffect, useState } from 'react';
-import {
-  Image,
-  Linking,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import { Image, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+
+
 
 import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18next';
+
+
 
 import { QuestUsers } from '~components';
 import { ILocation, IQuest, IReward, IStation } from '~interfaces';
@@ -19,7 +14,10 @@ import { useLazyGetQuestByIdQuery } from '~services';
 import { globalStyles } from '~styles';
 import { useAppSelector } from '~utils';
 
+
+
 import PATHS from '.PATHS';
+
 
 export const QuestPage = (props: any) => {
   const [quest, setQuest] = useState<IQuest>();
@@ -40,7 +38,6 @@ export const QuestPage = (props: any) => {
       userId: user.id,
     }).unwrap();
 
-    console.log(getQuestResponse);
     setQuest(getQuestResponse);
 
     let rewardsArray: IReward[] = [];
@@ -160,7 +157,7 @@ export const QuestPage = (props: any) => {
               <Text style={[globalStyles.lightText]}>
                 {`${showMoreDescription ? quest.description : quest?.description.slice(0, 250)}${
                   !showMoreDescription && quest?.description?.length > 250 ? '...' : ''
-                }`}
+                }`.replace(/\s\s+/g, ' ').replace(/(\r\n|\n|\r)/gm, "")}
               </Text>
             </TouchableWithoutFeedback>
             <View style={QuestPageStyles.users}>
@@ -212,7 +209,7 @@ const QuestPageStyles = StyleSheet.create({
     flexDirection: 'column',
     width: '100%',
     height: '100%',
-    paddingBottom: 60,
+    paddingBottom: 0,
   },
   header: {
     width: '100%',

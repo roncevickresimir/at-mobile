@@ -1,11 +1,8 @@
-import { t } from 'i18next';
-
-
-
 import { ILocation, IQuest } from '~interfaces';
 import { HttpMethods } from '~lookups';
 
 import { baseService } from './baseService';
+import { Config } from '.CONFIG';
 
 const URL = 'quests';
 
@@ -59,8 +56,7 @@ export const questService = baseService.injectEndpoints({
             location: { lat: quest.latitude, lng: quest.longitude },
             userId: quest.userId,
             published: !quest.disabled,
-            image:
-              'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg', //quest.image,
+            image: `${Config.AT_IMAGE_URI}/${URL}/${quest.image}`,
             distance: quest.distance > 99 ? undefined /*t('QUEST_PAGE.FAR_AWAY')*/ : quest.distance,
           };
         });
@@ -80,20 +76,17 @@ export const questService = baseService.injectEndpoints({
           userId: quest.userId,
           location: { lat: quest.latitude, lng: quest.longitude },
           published: !quest.disabled,
-          // categories: quest.categoryIds,
-          image: 'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg', //quest.image,
+          image: `${Config.AT_IMAGE_URI}/${URL}/${quest.image}`,
           stations: quest.Stations.map((station: any) => {
             return {
               id: station.id,
               name: station.title,
               description: station.description,
-              // categories: station.categoryIds,
               userId: station.userId,
               location: station.location,
               published: !station.disabled,
               complete: !!station.UserStations.length,
-              image:
-                'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg', //station.image,
+              image: `${Config.AT_IMAGE_URI}/${URL}/${quest.image}`,
             };
           }),
           reward: quest.Rewards?.map((reward: any) => {
@@ -101,42 +94,42 @@ export const questService = baseService.injectEndpoints({
               id: reward.id,
               name: reward.name,
               description: reward.description,
-              image:
-                'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg', //reward.image,
+              image: `${Config.AT_IMAGE_URI}/${URL}/${quest.image}`,
             };
           }),
         };
       },
     }),
-    getCompletedQuests: builder.query<IQuest[], string>({
+    getUserQuests: builder.query<IQuest[], string>({
       query: (userId) => ({
-        url: `${URL}/completed/${userId}`,
+        url: `${URL}/user/${userId}`,
         method: HttpMethods.GET,
       }),
       transformResponse: (response: any) => {
         const r: any = [];
 
-        const quests: any = response.forEach((bs: any) => {
-          const questsArray: any = bs?.Station?.QuestStationRelations?.forEach((quest: any) => {
-            const x = quest.Quest;
-            r.push({
-              id: x.id,
-              name: x.title,
-              description: x.description,
-              categories: x.categoryIds,
-              stations: x.QuestStationRelations,
-              location: { lat: x.latitude, lng: x.longitude },
-              userId: x.userId,
-              published: !x.disabled,
-              image:
-                'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg', //reward.image,
-            });
-          });
+        console.log(response);
+
+        const quests: any = response.map((quest: any) => {
+          return {
+            id: quest.id,
+            name: quest.title,
+            description: quest.description,
+            categories: quest.Categories,
+            stations: quest.Stations,
+            location: { lat: quest.latitude, lng: quest.longitude },
+            userId: quest.userId,
+            published: !quest.disabled,
+            image: `${Config.AT_IMAGE_URI}/${URL}/${quest.image}`,
+            distance: quest.distance > 99 ? undefined /*t('QUEST_PAGE.FAR_AWAY')*/ : quest.distance,
+          };
         });
-        return r;
+
+        console.log(quests);
+        return quests;
       },
     }),
   }),
 });
 
-export const { useLazyGetQuestsQuery, useLazyGetQuestByIdQuery, useLazyGetCompletedQuestsQuery } = questService;
+export const { useLazyGetQuestsQuery, useLazyGetQuestByIdQuery, useLazyGetUserQuestsQuery } = questService;

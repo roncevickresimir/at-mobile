@@ -1,45 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Dimensions,
-  Image,
-  Linking,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { useEffect, useState } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18next';
 
-import { useLazyGetRewardsByUserIdQuery } from '../../services/rewardService';
-import {
-  ICompleteStationPayload,
-  IGetStationPayload,
-  useLazyCompleteStationQuery,
-  useLazyGetStationQuery,
-} from '../../services/stationService';
-import { useAppSelector } from '../../utils/hooks';
-import QRScanner from '../components/QRScanner';
-import RewardList from '../components/RewardList';
-import IReward from '../interfaces/IReward';
-import IStation from '../interfaces/IStation';
-import globalStyles from '../styles/globalStyles';
+import { RewardList } from '~components';
+import { IReward } from '~interfaces';
+import { useLazyGetRewardsByUserIdQuery } from '~services';
+import { globalStyles } from '~styles';
+import { useAppSelector } from '~utils';
 
 export const RewardsPage = () => {
   const [rewards, setRewards] = useState<IReward[]>([]);
   const [points, setPoints] = useState<number>(0);
   const navigation = useNavigation();
 
-  const user = useAppSelector((state) => state?.auth?.user?.User);
+  const user = useAppSelector((state) => state?.auth?.user);
 
   const [getRewards, { isLoading: isRewardsLoading }] = useLazyGetRewardsByUserIdQuery();
 
   const fetchData = async () => {
-    const getRewardsResponse = await getRewards(user.id).unwrap();
-    setRewards(getRewardsResponse);
+    if (!user) return;
+    setRewards([...(await getRewards(user.id).unwrap())]);
   };
 
   useEffect(() => {

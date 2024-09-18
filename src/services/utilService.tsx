@@ -3,6 +3,7 @@ import { baseService } from './baseService';
 
 
 const URL = '/util';
+
 export const utilService = baseService.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
@@ -12,9 +13,13 @@ export const utilService = baseService.injectEndpoints({
         method: HttpMethods.GET,
       }),
     }),
+    getSignedUrl: builder.query<string, void>({
+      query: () => ({
+        url: `${URL}/signed-url`,
+        method: HttpMethods.GET,
+      }),
+    }),
   }),
 });
 
-export const {
-    useLazyGetServerVersionQuery,
-} = utilService;
+export const { useLazyGetServerVersionQuery, useLazyGetSignedUrlQuery } = utilService;

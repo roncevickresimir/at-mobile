@@ -82,6 +82,10 @@ const EN_GB = {
     CHECK_IN: 'Check in',
     NO_REWARDS: 'No rewards',
   },
+  REWARDS_PAGE: {
+    NO_REWARDS: 'No rewards.. yet?',
+    GUIDE: 'Complete quests to earn rewards!',
+  },
   COMPLETED_QUESTS: {
     IN_PROGRESS: 'Quests in progress',
     COMPLETE: 'Completed quests',

@@ -1,9 +1,11 @@
-import { t } from 'i18next';
-import React, { useState, useCallback, useRef } from 'react';
-import { View, StyleSheet } from 'react-native';
-import IReward from '../interfaces/IReward';
+import { StyleSheet, Text, View } from 'react-native';
 
-import RewardItem from './RewardItem';
+import { t } from 'i18next';
+
+import { IReward } from '~interfaces';
+import { globalStyles } from '~styles';
+
+import { RewardItem } from './RewardItem';
 
 interface IRewardListProps {
   items: IReward[];
@@ -14,9 +16,20 @@ export const RewardList = (props: IRewardListProps) => {
   return (
     <View style={RewardListStyles.view}>
       <View style={RewardListStyles.flex}>
-        {items.map((reward: IReward, index: number) => {
-          return <RewardItem reward={reward} key={index} />;
-        })}
+        {items.length ? (
+          items.map((reward: IReward, index: number) => {
+            return <RewardItem reward={reward} key={index} />;
+          })
+        ) : (
+          <>
+            <Text style={[globalStyles.bold, globalStyles.h2, globalStyles.mt32, globalStyles.colorSecondary]}>
+              {t('REWARDS_PAGE.NO_REWARDS')}
+            </Text>
+            <Text style={[globalStyles.bold, globalStyles.lightText, globalStyles.p20, globalStyles.colorSecondary]}>
+              {t('REWARDS_PAGE.GUIDE')}
+            </Text>
+          </>
+        )}
       </View>
     </View>
   );

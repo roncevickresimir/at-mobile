@@ -1,13 +1,11 @@
-import { AT_API_URI } from '@env';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-
-
+import { Config } from '.CONFIG';
 import { RootState } from '.STORE';
 
 export const baseService = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: AT_API_URI,
+    baseUrl: Config.AT_API_URI,
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
 
@@ -21,5 +19,3 @@ export const baseService = createApi({
   tagTypes: [],
   endpoints: () => ({}),
 });
-
-export const apiUrl = AT_API_URI;

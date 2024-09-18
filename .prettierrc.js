@@ -5,7 +5,7 @@ module.exports = {
   semi: true,
   singleQuote: true,
   trailingComma: 'all',
-  printWidth: 120,
+  printWidth: 80,
   quoteProps: 'as-needed',
   arrowParens: 'always',
   parser: 'typescript',

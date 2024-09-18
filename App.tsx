@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AppRegistry, SafeAreaView } from 'react-native';
+import { AppRegistry } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';

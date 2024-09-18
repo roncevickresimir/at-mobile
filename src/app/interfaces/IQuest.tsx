@@ -6,7 +6,6 @@ export interface IQuest {
   id: string;
   name: string;
   description: string;
-  categories: number[];
   userId: string;
   location: ILocation;
   stations: number[];
